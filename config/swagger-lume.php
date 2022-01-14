@@ -7,7 +7,7 @@ return [
         | Edit to set the api's title
         |--------------------------------------------------------------------------
          */
-        'title' => 'Sharelog API Documentation',
+        'title' => 'Swagger Lume API',
     ],
 
     'routes' => [
@@ -199,6 +199,6 @@ return [
     |--------------------------------------------------------------------------
      */
     'constants' => [
-        'API_HOST' => env('API_URL', 'http://localhost'),
+        'API_HOST' => env('APP_URL', 'http://localhost'),
     ],
 ];

@@ -1,5 +1,6 @@
 <?php
 
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -16,3 +17,6 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->post('potato', 'PotatoController@Create');
+$router->get('potato', 'PotatoController@Select');
