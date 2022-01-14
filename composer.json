@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "darkaonline/swagger-lume": "8.*",
         "dusterio/lumen-passport": "^0.3.4",
+        "irazasyed/larasupport": "^1.7",
         "laravel/lumen-framework": "^8.3.1",
         "league/flysystem": " ~1.0"
     },
@@ -21,10 +22,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        },
-        "files": [
-            "app/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "classmap": [

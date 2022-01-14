@@ -18,5 +18,5 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('potato', 'PotatoController@Create');
-$router->get('potato', 'PotatoController@Select');
+$router->post('planet', 'PlanetController@Create');
+$router->get('planet', 'PlanetController@Select');

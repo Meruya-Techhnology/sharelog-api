@@ -9,12 +9,12 @@
         "version": "1.0"
     },
     "paths": {
-        "/potato": {
+        "/planet": {
             "get": {
                 "tags": [
-                    "Potato"
+                    "Planet"
                 ],
-                "operationId": "selectPotato",
+                "operationId": "selectPlanet",
                 "parameters": [
                     {
                         "name": "id",
@@ -32,11 +32,150 @@
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "allOf": [
+                                        {
+                                            "properties": {
+                                                "message": {
+                                                    "description": "Message",
+                                                    "type": "string",
+                                                    "example": "Planet fetched successfully"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "description": "Planet data",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/GetPlanet"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error: Bad Request. Request doesnt not comply with requirement",
+                        "content": {
+                            "application/json": {
+                                "schema": {
                                     "properties": {
                                         "message": {
                                             "description": "Message",
                                             "type": "string",
-                                            "example": "Potato created successfully"
+                                            "example": "BadRequest"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Unauthorized. When rest-api client isn't authorized to use this API",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Error: Forbiden access. When user doesn't have permission to access this API.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Forbiden access"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error: Internal server error. This is happen when server had internal error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Internal server error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Planet"
+                ],
+                "operationId": "createPlanet",
+                "requestBody": {
+                    "description": "Planet create payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Earth"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Beautiful planet, that only one in this solar system that can contain life"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Response description",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Pllanet created successfully"
                                         }
                                     },
                                     "type": "object"
@@ -133,142 +272,37 @@
                         "token": []
                     }
                 ]
-            },
-            "post": {
-                "tags": [
-                    "Potato"
-                ],
-                "operationId": "createPotato",
-                "requestBody": {
-                    "description": "Potato create payload",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "amount"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Jhon potato"
-                                    },
-                                    "amount": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Response description",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Message",
-                                            "type": "string",
-                                            "example": "Potato created successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Error: Forbiden access. When rest-api client isn't authorized to use this API",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error_message": {
-                                            "description": "Error Message",
-                                            "properties": {
-                                                "name": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "Name is required"
-                                                    }
-                                                },
-                                                "amount": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "integer",
-                                                        "example": "Amount"
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Error: Unauthorized. When rest-api client isn't authorized to use this API",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Message",
-                                            "type": "string",
-                                            "example": "Unauthorized"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Error: Forbiden access. When user doesn't have permission to access this API.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Message",
-                                            "type": "string",
-                                            "example": "Forbiden access"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error: Internal server error. This is happen when server had internal error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Message",
-                                            "type": "string",
-                                            "example": "Internal server error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "GetPlanet": {
+                "allOf": [
                     {
-                        "token": []
+                        "properties": {
+                            "id": {
+                                "description": "Planet id",
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "description": "Planet name",
+                                "type": "string",
+                                "example": "Mercury"
+                            },
+                            "description": {
+                                "description": "Planet description",
+                                "type": "string",
+                                "example": "Mercury—the smallest planet in our solar system and closest to the Sun—is only slightly larger than Earth's Moon. Mercury is the fastest planet, zipping around the Sun every 88 Earth days."
+                            },
+                            "image": {
+                                "description": "Planet image",
+                                "type": "string",
+                                "example": "https://solarsystem.nasa.gov/system/feature_items/images/18_mercury_new.png"
+                            }
+                        },
+                        "type": "object"
                     }
                 ]
             }

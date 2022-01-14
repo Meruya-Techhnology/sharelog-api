@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class PotatoController extends Controller
+class PlanetController extends Controller
 {
     
     /**
      *  @OA\Post(
-     *      path="/potato",
-     *      operationId="createPotato",
-     *      tags={"Potato"},
+     *      path="/planet",
+     *      operationId="createPlanet",
+     *      tags={"Planet"},
      *      security={{"token": {}}},
      *      @OA\RequestBody(
      *          required=true,
-     *          description="Potato create payload",
+     *          description="Planet create payload",
      *          @OA\JsonContent(
-     *              required={"name", "amount"},
-     *              @OA\Property(property="name", type="string", example="Jhon potato"),
-     *              @OA\Property(property="amount", type="integer", example="1"),
+     *              required={"name", "description"},
+     *              @OA\Property(property="name", type="string", example="Earth"),
+     *              @OA\Property(property="description", type="string", example="Beautiful planet, that only one in this solar system that can contain life"),
      *          ),
      *      ),
      *      @OA\Response(
@@ -28,7 +28,7 @@ class PotatoController extends Controller
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  @OA\Property(property="message", type="string", description="Message", example="Potato created successfully"),
+     *                  @OA\Property(property="message", type="string", description="Message", example="Pllanet created successfully"),
      *              ),
      *          )
      *      ),
@@ -89,13 +89,12 @@ class PotatoController extends Controller
         return response($response, 201);
     }
 
-
     
     /**
      *  @OA\Get(
-     *      path="/potato",
-     *      operationId="selectPotato",
-     *      tags={"Potato"},
+     *      path="/planet",
+     *      operationId="selectPlanet",
+     *      tags={"Planet"},
      *      security={{"token": {}}},
      *      @OA\Parameter(
      *          name="id",
@@ -110,24 +109,26 @@ class PotatoController extends Controller
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  @OA\Property(property="message", type="string", description="Message", example="Potato created successfully"),
+     *                  allOf={
+     *                      @OA\Schema(
+     *                          @OA\Property(property="message", type="string", description="Message", example="Planet fetched successfully"),
+     *                      ),
+     *                      @OA\Schema(
+     *                          @OA\Property(property="data", type="array", description="Planet data",
+     *                              @OA\Items(ref="#/components/schemas/GetPlanet"),
+     *                          ),
+     *                      ),
+     *                  },
      *              ),
      *          )
      *      ),
      *      @OA\Response(
      *          response="400",
-     *          description="Error: Forbiden access. When rest-api client isn't authorized to use this API",
+     *          description="Error: Bad Request. Request doesnt not comply with requirement",
      *          @OA\MediaType(
      *              mediaType="application/json",
      *              @OA\Schema(
-     *                  @OA\Property(property="error_message", type="object", description="Error Message",
-     *                      @OA\Property(property="name", type="array",
-     *                          @OA\Items(type="string", example="Name is required"),
-     *                      ),
-     *                      @OA\Property(property="amount", type="array",
-     *                          @OA\Items(type="integer", example="Amount"),
-     *                      ),
-     *                  ),
+     *                  @OA\Property(property="message", type="string", description="Message", example="BadRequest"),
      *              ),
      *          ),
      *      ),
@@ -164,11 +165,10 @@ class PotatoController extends Controller
      * )
      */
     public function Select(Request $request){
-        $json = Storage::get("database/seed/potatoes.json");
-        $potatoes = json_decode($json);
+        $path = Storage::disk('jsons')->get('planets.json');
+        $planets = json_decode($path);
         $response = [
-            "request" => $request,
-            "data" => $potatoes,
+            "data" => $planets,
             "message" => "Select success"
         ];
         return response($response, 200);
